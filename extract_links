@@ -1,0 +1,36 @@
+'''A simple wrapper around BeautifulSoup to quickly find the URLs of all resources referenced by an HTML page.'''
+ 
+import urllib2
+import urlparse
+import BeautifulSoup
+ 
+def make_soup(url):
+    page = urllib2.urlopen(url)
+    contents = page.read()
+    soup = BeautifulSoup.BeautifulSoup(contents)
+    return soup
+ 
+def extract_element_attributes(soup, tag, attr):
+    elements = soup.findAll(tag)
+    return [ el[attr] for el in elements if el.has_key(attr) ]
+ 
+ 
+def find_urls(url):
+    soup = make_soup(url)
+    relative_urls = \
+        extract_element_attributes(soup, "a", "href") + \
+        extract_element_attributes(soup, "link", "href") + \
+        extract_element_attributes(soup, "img", "src")
+    absolute_urls = [
+        urlparse.urljoin(url, rel_url) for rel_url in relative_urls
+    ]
+    return absolute_urls
+ 
+if __name__ == '__main__':
+    import sys
+    if len(sys.argv) == 2:
+        page_url = sys.argv[1]
+        for url in find_urls(page_url):
+            print url
+    else:
+        print "USAGE: python extract_urls_from_page.py URL"
