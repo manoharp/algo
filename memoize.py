@@ -1,13 +1,14 @@
 class memoize(object):
- """
- Memoize wrapper for python
+	"""
+	Memoize wrapper for python
  
- usage:
- @memoize
- def fib(n):
-    pass
-    
- """
+ 	Usage:
+
+ 	@memoize
+ 	def fib(n):
+    	pass
+    	
+	"""
 	def __init__(self, function):
 		self.function = function
 		self.memoized = {}
