@@ -1,0 +1,33 @@
+class Node:
+  def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+        
+  def __str__(self):
+        return self.val
+
+"""
+Usage
+x = Node('a', Node('b', Node('c')))
+x.next
+
+The underlying implementation of Python’s list type is a bit different. Instead of several separate nodes
+referencing each other, a list is basically a single, contiguous slab of memory—what is usually known as
+an array. This leads to some important differences from linked lists. For example, while iterating over the
+contents of the list is equally efficient for both kinds (except for some overhead in the linked list), directly
+accessing an element at a given index is much more efficient in an array. This is because the position of
+the element can be calculated, and the right memory location can be accessed directly. In a linked list,
+however, one would have to traverse the list from the beginning.
+
+The difference we’ve been bumping up against, though, has to do with insertion. In a linked list, once you
+know where you want to insert something, insertion is cheap; it takes (roughly) the same amount of time,
+no matter how many elements the list contains. Not so with arrays: an insertion would have to move all
+elements that are to the right of the insertion point, possibly even moving all the elements to a larger array,
+if needed. A specific solution for appending is to use what’s often called a dynamic array, or vector.
+The idea is to allocate an array that is too big and then to reallocate it (in linear time) whenever it overflows. It
+might seem that this makes the append just as bad as the insert. In both cases, we risk having to move a
+large number of elements. The main difference is that it happens less often with the append. In fact, if we
+can ensure that we always move to an array that is bigger than the last by a fixed percentage (say 20
+percent or even 100 percent), the average cost (or, more correctly, the amortized cost, averaged over
+many appends) is negligible (constant). 
+"""
